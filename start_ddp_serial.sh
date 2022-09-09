@@ -8,6 +8,7 @@ do
     while [ $NSL != $NODES ]
     do
         sleep 1
+        NSL=$(find . -type f -name 'slurm-*' | wc -l)
     done
     sleep 1h
 done
