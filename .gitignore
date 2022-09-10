@@ -2,6 +2,7 @@ logs/
 __pycache__
 *.swp
 *.swo
+.train.py.swo
 slurm-*
 beam.py
 scr.sh
