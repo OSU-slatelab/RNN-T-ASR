@@ -1,4 +1,4 @@
-NODES=8
+NODES=4
 for i in {1..60}
 do
     rm -vrf sync/shared
@@ -10,5 +10,6 @@ do
         sleep 1
         NSL=$(find . -type f -name 'slurm-*' | wc -l)
     done
-    sleep 1h
+    echo "DDP training will start now"
+    sleep 3h 10m
 done

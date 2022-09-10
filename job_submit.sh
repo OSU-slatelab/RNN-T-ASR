@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#SBATCH --time=01:00:00 
+#SBATCH --time=03:00:00 
 #SBATCH --job-name=test
 #SBATCH --nodes=1
 #SBATCH --gpus-per-node=v100-32g:1
 #SBATCH --cpus-per-gpu=4
 #SBATCH --account=PAS0396
-#SBATCH --array=0-7:1
+#SBATCH --array=0-3:1
 
 source activate pt
 nvidia-smi
@@ -14,7 +14,7 @@ echo $PATH
 cd $SLURM_SUBMIT_DIR
 echo $SLURM_JOB_NODELIST
 python -u main.py \
-        --nodes 8 \
+        --nodes 4 \
         --gpus 1 \
         --rank ${SLURM_ARRAY_TASK_ID} \
         --nepochs 60 \

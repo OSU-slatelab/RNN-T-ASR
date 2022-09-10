@@ -34,7 +34,7 @@ def load2gpu(x, device):
     return x.to(device)
 
 class Trainer(object):
-    def __init__(self, args, data, device, optimizer, normalizer, sampler=None, rank=0):
+    def __init__(self, args, data, device, optimizer, normalizer, sampler=None, rank=0, checkpoint=None):
         if sampler is not None:
             shuffle = False
         else:
@@ -54,8 +54,8 @@ class Trainer(object):
         self.loader = torch.utils.data.DataLoader(data, batch_size=args.bsz_small, shuffle=shuffle, num_workers=4, collate_fn=collator, pin_memory=True, sampler=sampler)
 
         self.scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=args.lr, epochs=args.nepochs, steps_per_epoch=math.ceil(1. * len(self.loader) / self.update_after), anneal_strategy='linear', pct_start=0.3)
-        if args.checkpoint is not None:
-            self.scheduler.load_state_dict(args.checkpoint['scheduler'])
+        if checkpoint is not None:
+            self.scheduler.load_state_dict(checkpoint['scheduler'])
 
     def asr(self, model, logger):
         loss_list = []
@@ -97,5 +97,5 @@ class Trainer(object):
                 logger.info(log)
             loss_list = []
             if epoch % self.args.checkpoint_after == 0 and self.rank==0:
-                checkpoint = {'state_dict':model.state_dict(), 'normalizer':self.normalizer, 'optimizer':self.optimizer.state_dict(), 'scheduler':self.scheduler.state_dict, 'epochs_done':epoch}
+                checkpoint = {'state_dict':model.state_dict(), 'normalizer':self.normalizer, 'optimizer':self.optimizer.state_dict(), 'scheduler':self.scheduler.state_dict(), 'epochs_done':epoch}
                 save_checkpoint(checkpoint, f'{self.args.save_path}')

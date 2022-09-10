@@ -1,6 +1,8 @@
 logs/
 __pycache__
 *.swp
+*.swo
 slurm-*
 beam.py
 scr.sh
+core*

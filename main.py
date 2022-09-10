@@ -50,18 +50,18 @@ def worker(gpu, args):
     print(f'Loading model.')
     model = RNNT(args)
     model = model.to(device)
-    if args.ddp:
-        model = nn.parallel.DistributedDataParallel(model)
     optimizer = optim.AdamW(model.parameters(), lr=args.lr, betas=[0.9, 0.999], eps=1e-8, weight_decay=0)
     normalizer = InputNormalization(update_until_epoch=3)
+    if args.ddp:
+        model = nn.parallel.DistributedDataParallel(model)
     if os.path.isfile(args.ckpt_path):
-        args.checkpoint = torch.load(args.ckpt_path)
-        load_dict(model, args.checkpoint['model'], loc=f'cuda:{gpu}')
-        optimizer.load_state_dict(args.checkpoint['optimizer'])
-        normalizer = args.checkpoint['normalizer']
-        args.epochs_done = args.checkpoint['epochs_done']
+        checkpoint = torch.load(args.ckpt_path, map_location=f'cuda:{gpu}')
+        load_dict(model, checkpoint['state_dict'], ddp=args.ddp)
+        optimizer.load_state_dict(checkpoint['optimizer'])
+        normalizer = checkpoint['normalizer'].to('cpu')
+        args.epochs_done = checkpoint['epochs_done']
     else:
-        args.checkpoint = None
+        checkpoint = None
     print(f'Done.')
 
     # Define sampler for DDP and training utility
@@ -69,7 +69,7 @@ def worker(gpu, args):
         sampler = torch.utils.data.distributed.DistributedSampler(data, num_replicas=args.world_size, rank=rank)
     else:
         sampler = None
-    trainer = Trainer(args, data, device, optimizer, normalizer, sampler=sampler, rank=rank)
+    trainer = Trainer(args, data, device, optimizer, normalizer, sampler=sampler, rank=rank, checkpoint=checkpoint)
 
     # Training starts here
     print(f'Starting training ...')
@@ -84,8 +84,8 @@ def main():
     parser.add_argument('--seed', type=int, default=1111, help='')
     parser.add_argument('--nspeech-feat', type=int, default=80, help='# logmels')
     parser.add_argument('--sample-rate', type=int, default=16000, help='speech sampling rate to use')
-    parser.add_argument('--fmask', type=int, default=27, help='for specaug')
-    parser.add_argument('--tmask', type=int, default=80, help='for specaug')
+    parser.add_argument('--fmask', type=int, default=27, help='for specaug') #15
+    parser.add_argument('--tmask', type=int, default=80, help='for specaug') #50
     parser.add_argument('--batch-size', type=int, default=64, help='')
     parser.add_argument('--bsz-small', type=int, default=8, help='batch size per gpu')
     parser.add_argument('--nepochs', type=int, default=60, help='')

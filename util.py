@@ -78,7 +78,7 @@ def inject_seqn(X):
     X = torch.log(torch.exp(X) + 0.4 * torch.exp(X[Z]) * mask_sn)
     return X
 
-def load_dict(model, ptdict, loc='cuda:0', ddp=True):
+def load_dict(model, ptdict, ddp=True):
     #pretrained_dict = torch.load(dict_path, map_location=loc)
     pretrained_dict = ptdict
     model_dict = model.state_dict()
