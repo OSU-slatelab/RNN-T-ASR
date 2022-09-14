@@ -1,16 +1,16 @@
 python -u main.py \
-        --nodes 2 \
-        --gpus 1 \
-        --rank 1 \
+        --nodes 1 \
+        --gpus 2 \
+        --rank 0 \
         --nepochs 60 \
         --epochs-done 0 \
         --train-path '/users/PAS1939/vishal/datasets/librispeech/train_full_960.csv' \
-        --logging-file 'logs/lstm_asr2.log' \
-        --save-path '/users/PAS1939/vishal/saved_models/lstm_asr.pth.tar' \
-        --ckpt-path '/users/PAS1939/vishal/saved_models/lstm_asr.pth.tar' \
+        --logging-file 'logs/debug.log' \
+        --save-path '/users/PAS1939/vishal/saved_models/debug.pth.tar' \
+        --ckpt-path '/users/PAS1939/vishal/saved_models/debug.pth.tar' \
         --enc-type 'lstm' \
-        --batch-size 64 \
-        --bsz-small 8 \
+        --batch-size 8 \
+        --bsz-small 4 \
         --n-layer 6 \
         --in-dim 320 \
         --hid-tr 1280 \
