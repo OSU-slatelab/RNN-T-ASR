@@ -31,11 +31,25 @@ Run the sbatch script <code>sbatch job_submit.sh</code>.
 <code>--gpus</code> number of gpus per node. 
 
 ## Decoding
-We use a beam search variant proposed in [2].  
-<code>sbatch run_asr.sh</code> runs the decoding in 100 parallel nodes each node decoding 1/100 of the test set.
+We use a beam search variant proposed in [2]. 
+
+<code>mkdir asr_log</code> in the current path if running for the first time.  
+<code>sbatch run_asr.sh</code> runs the decoding in 100 parallel nodes each node decoding 1/100 of the test set.  
 <code>bash run_decode.sh</code> is the single node variant of the above which can be used for debugging.  
 
 In the above scripts:
 
 <code>--test-path</code> is the folder containing 100 csv files numbered {0..99}.csv in the same format as [URL](https://github.com/vishalsunder/speech-feature-computation).  
+<code>--decode-path</code> where to write the decodes, should be a folder (will be created if does not exist).  
+
+## Scoring
+In <code>compute_wer.sh</code>, change <code>PTH</code> to the path for the folder containing the decodes (see above).  
+Run <code>bash compute_wer.sh</code>.  
+
+Word Error Rate will be computed and written to the end of the file named <code>${PTH}/full.txt</code> which would also contain "ground truth ----> hypothesis" for all utterances in the test set.
+
+## References
+
+[1] Alex Graves, "Sequence transduction with recurrent neural networks.", Representation Learning Workshop ICML 2012.
+[2] George Saon, Zolt$&aacute;$an Tuske and Kartik Audhkhasi
 
