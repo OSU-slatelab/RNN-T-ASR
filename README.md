@@ -50,6 +50,6 @@ Word Error Rate will be computed and written to the end of the file named <code>
 
 ## References
 
-[1] Alex Graves, "Sequence transduction with recurrent neural networks.", Representation Learning Workshop ICML 2012.
-[2] George Saon, Zolt&aacute;n Tuske and Kartik Audhkhasi
+[1] Alex Graves, "Sequence transduction with recurrent neural networks.", Representation Learning Workshop ICML 2012.  
+[2] George Saon, Zolt&aacute;n T&uuml;ske and Kartik Audhkhasi
 
