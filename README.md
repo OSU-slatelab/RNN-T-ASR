@@ -37,12 +37,12 @@ We use a beam search variant proposed in [2].
 <code>mkdir asr_log</code> in the current path if running for the first time.  
 <code>sbatch run_asr.sh</code> runs the decoding in 100 parallel nodes each node decoding 1/100 of the test set.  
 <code>bash run_decode.sh</code> is the single node variant of the above which can be used for debugging.  
-<code>--dont-fix-path</code> set this flag if your csv contains the absolute path to the audio. Otherwise, don't set.  
 
 In the above scripts:
 
 <code>--test-path</code> is the folder containing 100 csv files numbered {0..99}.csv in the same format as [URL](https://github.com/vishalsunder/speech-feature-computation).  
 <code>--decode-path</code> where to write the decodes, should be a folder (will be created if does not exist).  
+<code>--dont-fix-path</code> set this flag if your csv contains the absolute path to the audio. Otherwise, don't set.  
 
 ## Scoring
 In <code>compute_wer.sh</code>, change <code>PTH</code> to the path for the folder containing the decodes (see above).  
