@@ -97,7 +97,7 @@ class Trainer(object):
 
     def asr(self, model, logger):
         loss_list = []
-        for epoch in range(self.args.epochs_done+1, self.args.nepochs):
+        for epoch in range(self.args.epochs_done+1, self.args.nepochs+1):
             if self.sampler is not None:
                 self.sampler.set_epoch(epoch)
             print(f'Running epoch {epoch}.')
@@ -110,7 +110,8 @@ class Trainer(object):
                 lens_norm = [1.*(x/lmax) for x in logitLens]
                 speechB = self.normalizer(speechB, torch.tensor(lens_norm).float(), epoch=epoch-1) # mean-var normalize
                 speechB = inject_seqn(speechB) # sequence noise injection
-                speechB = self.aug(speechB) # specaugment
+                speechB = SpecDel(speechB, logitLens, self.args.fmask) # specaug --> del+ddel
+                #speechB = self.aug(speechB) # specaugment
                 speechB, logitLens = roll_in(speechB, logitLens) # lower sequence length
                 speechB, textB, targetB, logitLens, targetLens = load2gpu(speechB, self.device), load2gpu(textB, self.device), load2gpu(targetB, self.device), load2gpu(torch.tensor(logitLens), self.device), load2gpu(torch.tensor(targetLens),self.device)
 

@@ -1,5 +1,5 @@
 NODES=8
-for i in {1..60}
+for i in {1..70}
 do
     rm -vrf sync/shared
     rm -vrf slurm-*

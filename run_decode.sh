@@ -1,0 +1,12 @@
+python -u decode.py \
+        --test-path '/users/PAS1939/vishal/datasets/librispeech/parts/test_other' \
+        --rank 0 \
+        --decode-path 'decodes/asr/conf_10L512H8A_asr_test_other_libri' \
+        --ckpt-path '/users/PAS1939/vishal/saved_models/conf_10L512H8A_asr.pth.tar' \
+        --enc-type 'conf' \
+        --in-dim 960 \
+        --n-layer 10 \
+        --hid-tr 512 \
+        --nhead 8 \
+        --hid-pr 1024 \
+        --beam-size 16

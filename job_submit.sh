@@ -17,19 +17,20 @@ python -u main.py \
         --nodes 8 \
         --gpus 1 \
         --rank ${SLURM_ARRAY_TASK_ID} \
-        --nepochs 60 \
+        --nepochs 70 \
         --epochs-done 0 \
         --train-path '/users/PAS1939/vishal/datasets/librispeech/train_full_960.csv' \
-        --logging-file 'logs/lstm_asr.log' \
-        --save-path '/users/PAS1939/vishal/saved_models/lstm_asr.pth.tar' \
-        --ckpt-path '/users/PAS1939/vishal/saved_models/lstm_asr.pth.tar' \
-        --enc-type 'lstm' \
-        --batch-size 64 \
+        --logging-file 'logs/conf_16L256H4A_asr.log' \
+        --save-path '/users/PAS1939/vishal/saved_models/conf_16L256H4A_asr.pth.tar' \
+        --ckpt-path '/users/PAS1939/vishal/saved_models/conf_16L256H4A_asr.pth.tar' \
+        --enc-type 'conf' \
+        --batch-size 512 \
         --bsz-small 8 \
-        --n-layer 6 \
-        --in-dim 320 \
-        --hid-tr 1280 \
+        --in-dim 960 \
+        --n-layer 16 \
+        --hid-tr 256 \
+        --nhead 4 \
         --hid-pr 1024 \
-        --lr 0.0005 \
+        --lr 0.001 \
         --clip 5.0 \
         --dropout 0.25

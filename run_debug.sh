@@ -1,20 +1,21 @@
 python -u main.py \
         --nodes 1 \
-        --gpus 2 \
+        --gpus 1 \
         --rank 0 \
         --nepochs 60 \
         --epochs-done 0 \
+        --batch-size 512 \
+        --bsz-small 32 \
         --train-path '/users/PAS1939/vishal/datasets/librispeech/train_full_960.csv' \
         --logging-file 'logs/debug.log' \
         --save-path '/users/PAS1939/vishal/saved_models/debug.pth.tar' \
-        --ckpt-path '/users/PAS1939/vishal/saved_models/debug.pth.tar' \
-        --enc-type 'lstm' \
-        --batch-size 8 \
-        --bsz-small 4 \
-        --n-layer 6 \
-        --in-dim 320 \
-        --hid-tr 1280 \
+        --ckpt-path '' \
+        --enc-type 'conf' \
+        --in-dim 960 \
+        --n-layer 16 \
+        --hid-tr 128 \
+        --nhead 4 \
         --hid-pr 1024 \
         --lr 0.001 \
-        --clip 10.0 \
+        --clip 5.0 \
         --dropout 0.25

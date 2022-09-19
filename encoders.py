@@ -11,7 +11,7 @@ def count_parameters(model):
 class ConformerLayer(nn.Module):
     def __init__(self, hidDim, headDim, nhead, dropout=0.25):
         super(ConformerLayer, self).__init__()
-        self.encoder = ConformerBlock(dim = hidDim, dim_head=headDim, heads=nhead, ff_mult = 4, conv_expansion_factor = 2, conv_kernel_size = 31, attn_dropout = dropout, ff_dropout = dropout, conv_dropout = dropout)
+        self.encoder = ConformerBlock(dim = hidDim, dim_head=headDim, heads=nhead, ff_mult = 4, conv_expansion_factor = 2, conv_kernel_size = 32, attn_dropout = dropout, ff_dropout = dropout, conv_dropout = dropout)
         
     def forward(self, x):
         return self.encoder(x)
@@ -79,7 +79,7 @@ class LstmEncoder(nn.Module):
         return x, full
 
     def step(self, x, hidden):
-        return Lstm0.step(x, hidden)
+        return self.Lstm0.step(x, hidden)
         #hiddenO = []
         #for i in range(self.nLayer):
         #    x, hidden = getattr(self, 'Lstm'+str(i)).step(x, hiddenI[i])

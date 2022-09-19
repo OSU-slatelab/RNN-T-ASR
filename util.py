@@ -11,10 +11,19 @@ import pdb
 import string
 import numpy as np
 from transformers import BertTokenizer
+from speechbrain.lobes.augment import SpecAugment
+from speechbrain.processing.features import Deltas
+from torch.nn.utils.rnn import pack_sequence, pad_packed_sequence
 
 TOK = BertTokenizer.from_pretrained("bert-base-uncased")
 ASR_ID2TOK = ["<blank>"]+list(string.ascii_lowercase) + [str(x) for x in range(10)] + ["'","-","<space>"]
 ASR_TOK2ID = {x:i for i, x in enumerate(ASR_ID2TOK)}
+
+def list_batch(X, lens):
+    sbatch_ = []
+    for i, l in enumerate(lens):
+        sbatch_.append(X[i,:l,:])
+    return sbatch_
 
 def pad_fac(input, factor=4):
     add_size = input.size(1) % factor
@@ -24,18 +33,31 @@ def pad_fac(input, factor=4):
     else:
         return input
 
+def SpecDel(X, lens, fmask, train=True):
+    Del = Deltas(input_size=X.size(-1))
+    X_ = list_batch(X, lens)
+    xn = []
+    for x in X_:
+        x = x.unsqueeze(0)
+        if train:
+            SpecA = SpecAugment(time_warp=False, freq_mask_width=(0, fmask), time_mask_width=(0, int(0.05*x.size(1))), n_freq_mask=2, n_time_mask=10)
+            x = SpecA(x)
+        try:
+            D = Del(x)
+        except RuntimeError:
+            D = Del(x)
+        DD = Del(D)
+        xn.append(torch.cat([x, D, DD], dim=2).squeeze(0))
+    pack = pack_sequence(xn, enforce_sorted=False)
+    Xn, _ = pad_packed_sequence(pack, batch_first=True)
+    return Xn
+
 def roll_in(x, lens):
     lens = [math.ceil(1.*k/4) for k in lens]
     x = pad_fac(x, 4)
     full = torch.cat([x, x.roll(-1, dims=1), x.roll(-2, dims=1), x.roll(-3, dims=1)], dim=2)
     extract = list(range(0, x.size(1), 4))
     return full[:, extract, :], lens
-
-def list_batch(X, lens):
-    sbatch_ = []
-    for i, l in enumerate(lens):
-        sbatch_.append(X[i,:l,:])
-    return sbatch_
 
 def convert_tok2id(text):
     lst = []
@@ -53,7 +75,7 @@ def convert_id2tok(ids):
             text = text + ' '
         else:
             text = text + ASR_ID2TOK[x]
-    return text
+    return text.replace("<blank>","")
 
 def clean4asr(text):
     text = re.sub('[^A-Za-z0-9\s\-\']+','',text)

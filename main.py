@@ -49,12 +49,13 @@ def worker(gpu, args):
     # Loading models
     print(f'Loading model.')
     model = RNNT(args)
+    print(f'# model parameters = {count_parameters(model)/1e6}M')
     model = model.to(device)
     optimizer = optim.AdamW(model.parameters(), lr=args.lr, betas=[0.9, 0.999], eps=1e-8, weight_decay=0)
     normalizer = InputNormalization(update_until_epoch=3)
     if args.ddp:
         model = nn.parallel.DistributedDataParallel(model)
-    if os.path.isfile(args.ckpt_path):
+    if os.path.isfile(args.ckpt_path) and args.ckpt_path != '':
         checkpoint = torch.load(args.ckpt_path, map_location=f'cuda:{gpu}')
         load_dict(model, checkpoint['state_dict'], ddp=args.ddp)
         optimizer.load_state_dict(checkpoint['optimizer'])

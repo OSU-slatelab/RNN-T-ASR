@@ -1,0 +1,5 @@
+batch size = 512
+LR = 1e-3
+specaug = 100,27
+D + DD
+epochs = 80
