@@ -1,4 +1,5 @@
 # RNN-T-ASR
+This repository contains code for building an RNN transducer model for Automatic Speech Recognition.  
 
 ## Requirements
 * torch >= 1.11.0
