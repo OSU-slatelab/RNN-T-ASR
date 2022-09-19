@@ -222,8 +222,6 @@ class RNNT(nn.Module):
         else:
             hyp, score = [], 0
 
-        end = time.time()
-
         return hyp, score
 
 #class RNNT_AlignOne(RNNT):
