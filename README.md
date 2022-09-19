@@ -30,5 +30,7 @@ Run the sbatch script <code>sbatch job_submit.sh</code>.
 <code>--nodes</code> number of nodes to request.  
 <code>--gpus</code> number of gpus per node. 
 
-
+## Decoding
+We use a beam search variant proposed in [2].  
+<code>sbatch run_asr.sh</code> runs the decoding in 100 parallel nodes each node decoding 1/100 of the test set.
 
