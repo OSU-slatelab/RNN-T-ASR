@@ -33,4 +33,9 @@ Run the sbatch script <code>sbatch job_submit.sh</code>.
 ## Decoding
 We use a beam search variant proposed in [2].  
 <code>sbatch run_asr.sh</code> runs the decoding in 100 parallel nodes each node decoding 1/100 of the test set.
+<code>bash run_decode.sh</code> is the single node variant of the above which can be used for debugging.  
+
+In the above scripts:
+
+<code>--test-path</code> is the folder containing 100 csv files numbered {0..99}.csv in the same format as [URL](https://github.com/vishalsunder/speech-feature-computation).  
 
