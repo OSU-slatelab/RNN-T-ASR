@@ -21,7 +21,8 @@ This repository contains code for building an RNN transducer model for Automatic
 <code>--train-path</code> path where the training file lives. It should be a csv which follows a template defined at [URL](https://github.com/vishalsunder/speech-feature-computation). 
 <code>--enc-type</code> 'lstm' OR 'conf'. 
 <code>--hid-tr</code> hidden units in the transcription network.  
-<code>--hid-pr</code> hidden units in the prediction network.
+<code>--hid-pr</code> hidden units in the prediction network.  
+<code>--unidirectional</code> set this flag if training a unidirectional LSTM as the transcription network. Useful for streaming ASR.
 
 ### SLURM based (multiple nodes/gpus)
 Run the sbatch script <code>sbatch job_submit.sh</code>.
