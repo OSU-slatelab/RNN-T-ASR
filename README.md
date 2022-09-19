@@ -22,7 +22,8 @@ This repository contains code for building an RNN transducer model for Automatic
 <code>--enc-type</code> 'lstm' OR 'conf'. 
 <code>--hid-tr</code> hidden units in the transcription network.  
 <code>--hid-pr</code> hidden units in the prediction network.  
-<code>--unidirectional</code> set this flag if training a unidirectional LSTM as the transcription network. Useful for streaming ASR.
+<code>--unidirectional</code> set this flag if training a unidirectional LSTM as the transcription network. Useful for streaming ASR.  
+<code>--dont-fix-path</code> set this flag if your csv contains the absolute path to the audio. Otherwise, don't set and edit the <code>fix()</code> function in <code>data.py</code> accordingly.  
 
 ### SLURM based (multiple nodes/gpus)
 Run the sbatch script <code>sbatch job_submit.sh</code>.
@@ -36,6 +37,7 @@ We use a beam search variant proposed in [2].
 <code>mkdir asr_log</code> in the current path if running for the first time.  
 <code>sbatch run_asr.sh</code> runs the decoding in 100 parallel nodes each node decoding 1/100 of the test set.  
 <code>bash run_decode.sh</code> is the single node variant of the above which can be used for debugging.  
+<code>--dont-fix-path</code> set this flag if your csv contains the absolute path to the audio. Otherwise, don't set.  
 
 In the above scripts:
 
