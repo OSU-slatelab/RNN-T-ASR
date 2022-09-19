@@ -36,17 +36,17 @@ The folder <code>sync</code> is required for distributed training (DDP) as we us
 ## Decoding
 We use a beam search variant proposed in [2]. 
 
-<code>mkdir asr_log</code> in the current path if running for the first time.  
-<code>sbatch run_asr.sh</code> runs the decoding in 100 parallel nodes each node decoding 1/100 of the test set.  
-* <code>--unidirectional</code> set this flag if training a unidirectional LSTM as the transcription network. Useful for streaming ASR.  
-<code>bash run_decode.sh</code> is the single node variant of the above which can be used for debugging.  
+* <code>mkdir asr_log</code> in the current path if running for the first time.  
+* <code>sbatch run_asr.sh</code> runs the decoding in 100 parallel nodes each node decoding 1/100 of the test set.   
+* <code>bash run_decode.sh</code> is the single node variant of the above which can be used for debugging.  
 
 Other hyperparameters in the above training and decoding scripts are self-explanatory. See <code>--help</code> in the argument definition in <code>main.py</code> and <code>decode.py</code> for more details.
 
 In the above scripts:
 
 * <code>--test-path</code> is the folder containing 100 csv files numbered {0..99}.csv in the same format as [URL](https://github.com/vishalsunder/speech-feature-computation).  
-* <code>--decode-path</code> where to write the decodes, should be a folder (will be created if does not exist).  
+* <code>--decode-path</code> where to write the decodes, should be a folder (will be created if does not exist). 
+* <code>--unidirectional</code> set this flag if training a unidirectional LSTM as the transcription network.
 * <code>--dont-fix-path</code> set this flag if your csv contains the absolute path to the audio. Otherwise, don't set.  
 
 ## Scoring
