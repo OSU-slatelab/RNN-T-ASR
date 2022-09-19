@@ -12,7 +12,7 @@ This repository contains code for building an RNN transducer model for Automatic
 
 ## Training
 ### Non SLURM based (for debugging)
-<code>run_debug.sh</code> is the script for debugging usually done on a single node. In this script:
+<code>run_debug.sh</code> is the script for debugging, usually done on a single node. In this script:
 
 * <code>--batch-size</code> is the total batch size after seeing which a gradient descent update is made.  
 * <code>--bsz-small</code> is the batch size per GPU. If the batch size total in all gpus (#gpu*<code>--bsz-small</code>) is not equal to <code>--batch-size</code>, then gradients are accumulated.  
