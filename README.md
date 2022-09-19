@@ -31,7 +31,7 @@ Run the sbatch script <code>sbatch job_submit.sh</code>.
 * <code>--nodes</code> number of nodes to request.  
 * <code>--gpus</code> number of gpus per node. 
 
-The folder <code>sync</code> is required for distributed training (DDP) as we use a shared file system to synchronize training. Always remember to DELETE <code>sync/shared</code> BEFORE STARTING A NEW DDP INSTANCE.
+The folder <code>sync</code> is required for distributed training (DDP) as we use a shared file system to synchronize training. Always remember to DELETE <code>sync/shared</code> BEFORE STARTING A NEW DDP INSTANCE, otherwise the training won't start.
 
 ## Decoding
 We use a beam search variant proposed in [2]. 
