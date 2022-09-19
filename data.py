@@ -46,7 +46,10 @@ class ASRDataset(SpeechDataset):
         self.args = args
 
     def fix_path(self, path):
-        return path.replace('/data/corpora2/librispeech/LibriSpeech/', '/users/PAS1939/vishal/datasets/librispeech/audio/')
+        if self.args.dont_fix_path:
+            return path
+        else:
+            return path.replace('/data/corpora2/librispeech/LibriSpeech/', '/users/PAS1939/vishal/datasets/librispeech/audio/')
 
     def __getitem__(self, index):
         row = self.df.iloc[index]

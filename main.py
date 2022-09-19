@@ -109,6 +109,8 @@ def main():
     parser.add_argument('--clip', type=float, default=1.0, help='clip grad')
     parser.add_argument('--dropout', type=float, default=0.25, help='')
     parser.add_argument('--deep-spec', action='store_true', help='')
+    parser.add_argument('--unidirectional', action='store_true', help='')
+    parser.add_argument('--dont-fix-path', action='store_true', help='')
     
     args = parser.parse_args()
     args.vocab_size = len(ASR_ID2TOK)
