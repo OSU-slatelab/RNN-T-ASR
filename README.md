@@ -26,7 +26,8 @@ This repository contains code for building an RNN transducer model for Automatic
 ### SLURM based (multiple nodes/gpus)
 Run the sbatch script <code>sbatch job_submit.sh</code>.
 
-
+<code>--nodes</code> number of nodes to request. 
+<code>--gpus</code> number of gpus per node. 
 
 
 
