@@ -11,6 +11,7 @@ This repository contains code for building an RNN transducer model for Automatic
 * conformer >= 0.2.5 [URL](https://github.com/lucidrains/conformer)
 
 ## Training
+### Non SLURM based (for debugging)
 <code>run_debug.sh</code> is the script for debugging usually done on a single node. In this script:
 
 <code>--batch-size</code> is the total batch size after seeing which a gradient descent update is made.
@@ -19,7 +20,7 @@ This repository contains code for building an RNN transducer model for Automatic
 
 <code>save-path</code> where to save checkpoints, (saves after every epoch by default. Edit <code>--checkpoint-after</code> to change)
 
-<code>ckpt-path</code> path to checkpoint to be loaded to continue training.
+<code>--ckpt-path</code> path to checkpoint to be loaded to continue training.
 
 <code>--train-path</code> path where the training file lives. It should be a csv which follows a template defined at [URL](https://github.com/vishalsunder/speech-feature-computation)
 
