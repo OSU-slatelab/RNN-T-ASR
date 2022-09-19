@@ -14,8 +14,7 @@ This repository contains code for building an RNN transducer model for Automatic
 ### Non SLURM based (for debugging)
 <code>run_debug.sh</code> is the script for debugging usually done on a single node. In this script:
 
-<code>--batch-size</code> is the total batch size after seeing which a gradient descent update is made.
-
+<code>--batch-size</code> is the total batch size after seeing which a gradient descent update is made.  
 <code>--bsz-small</code> is the batch size per GPU. If the batch size total in all gpus (#gpu*<code>--bsz-small</code>) is not equal to <code>--batch-size</code>, then gradients are accumulated.
 
 <code>--save-path</code> where to save checkpoints, (saves after every epoch by default. Edit <code>--checkpoint-after</code> to change)
@@ -29,5 +28,11 @@ This repository contains code for building an RNN transducer model for Automatic
 <code>--hid-tr</code> hidden units in the transcription network.
 
 <code>--hid-pr</code> hidden units in the prediction network.
+
+### SLURM based (multiple nodes/gpus)
+Run the sbatch script <code>sbatch job_submit.sh</code>.
+
+
+
 
 
