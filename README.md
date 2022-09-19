@@ -16,7 +16,7 @@ This repository contains code for building an RNN transducer model for Automatic
 
 <code>--batch-size</code> is the total batch size after seeing which a gradient descent update is made.
 
-<code>--bsz-small</code> is the batch size per GPU. If the batch size total is all gpus (#gpu*<code>--bsz-small</code>) is not equal to <code>--batch-size</code>, then gradients are accumulated.
+<code>--bsz-small</code> is the batch size per GPU. If the batch size total in all gpus (#gpu*<code>--bsz-small</code>) is not equal to <code>--batch-size</code>, then gradients are accumulated.
 
 <code>--save-path</code> where to save checkpoints, (saves after every epoch by default. Edit <code>--checkpoint-after</code> to change)
 
