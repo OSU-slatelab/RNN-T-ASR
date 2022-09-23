@@ -87,7 +87,10 @@ class RNNT(nn.Module):
         self.dropout = nn.Dropout(args.dropout)
 
         if args.enc_type == 'lstm':
-            self.tNet = LstmEncoder(args.n_layer, args.in_dim, int(args.hid_tr/2), dropout0=args.dropout, dropout=args.dropout, spec=args.deep_spec, bidirectional=(not args.unidirectional))
+            if not args.unidirectional:
+                self.tNet = LstmEncoder(args.n_layer, args.in_dim, int(args.hid_tr/2), dropout0=args.dropout, dropout=args.dropout, spec=args.deep_spec, bidirectional=True)
+            else:
+                self.tNet = LstmEncoder(args.n_layer, args.in_dim, args.hid_tr, dropout0=args.dropout, dropout=args.dropout, spec=args.deep_spec, bidirectional=False)
         else:
             self.inScale = nn.Linear(args.in_dim, args.hid_tr)
             self.tNet = ConformerEncoder(args.n_layer, args.hid_tr, args.head_dim, args.nhead, dropout=args.dropout, spec=args.deep_spec)

@@ -59,7 +59,10 @@ class LstmEncoder(nn.Module):
         self.nLayer = nLayer
         self.Lstm0 = LstmLayer(inDim, hidDim, dropout=dropout0, bidirectional=bidirectional)
         for i in range(1, self.nLayer):
-            setattr(self, 'Lstm'+str(i), LstmLayer(2*hidDim, hidDim, dropout=dropout, bidirectional=bidirectional))
+            if bidirectional:
+                setattr(self, 'Lstm'+str(i), LstmLayer(2*hidDim, hidDim, dropout=dropout, bidirectional=True))
+            else:
+                setattr(self, 'Lstm'+str(i), LstmLayer(hidDim, hidDim, dropout=dropout, bidirectional=False))
         self.spec = spec
         self.aug = SpecAugment(time_warp=False, freq_mask_width=(0, 100), time_mask_width=(0, 20))
 
