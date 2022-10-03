@@ -22,7 +22,7 @@ resource.setrlimit(resource.RLIMIT_NOFILE, (2048, rlimit[1]))
 
 def worker(gpu, args):
     # Setting up gpu and rank within DDP
-    rank = args.rank * args.gpus + gpu
+    rank = args.node_rank * args.gpus + gpu
     torch.cuda.set_device(gpu)
     device = torch.device("cuda")
 
@@ -34,7 +34,7 @@ def worker(gpu, args):
         rfh = RotatingFileHandler(args.logging_file, maxBytes=100000, backupCount=10, encoding="UTF-8")
         logger.addHandler(rfh)
     if args.ddp:
-        #dist.init_process_group(backend='gloo', init_method='env://', world_size=args.world_size, rank=rank)
+        #dist.init_process_group(backend='nccl', init_method='env://', world_size=args.world_size, rank=rank)
         dist.init_process_group(backend='gloo', init_method='file://'+args.sync_path, world_size=args.world_size, rank=rank)
 
     # Set the random seed manually for reproducibility.
@@ -79,9 +79,10 @@ def worker(gpu, args):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--nodes', type=int, default=1, help='# nodes used for DDP')
+    parser.add_argument('--local_rank', type=int, default=0, help='')
+    parser.add_argument('--nnodes', type=int, default=1, help='# nodes used for DDP')
+    parser.add_argument('--node_rank', type=int, default=0, help='rank among nodes')
     parser.add_argument('--gpus', type=int, default=1, help='# gpus per node')
-    parser.add_argument('--rank', type=int, default=0, help='rank within nodes')
     parser.add_argument('--seed', type=int, default=1111, help='')
     parser.add_argument('--nspeech-feat', type=int, default=80, help='# logmels')
     parser.add_argument('--sample-rate', type=int, default=16000, help='speech sampling rate to use')
@@ -114,15 +115,17 @@ def main():
     
     args = parser.parse_args()
     args.vocab_size = len(ASR_ID2TOK)
-    args.world_size = args.gpus * args.nodes
+    args.world_size = args.gpus * args.nnodes
     if args.world_size > 1:
         args.ddp = True
     else:
         args.ddp = False
     if args.ddp:
-        #os.environ['MASTER_ADDR'] = args.address
+        #os.environ['MASTER_ADDR'] = 'localhost'#args.address
         #os.environ['MASTER_PORT'] = '8888'
-        mp.spawn(worker, nprocs=args.gpus, args=(args,))
+        #mp.spawn(worker, nprocs=args.gpus, args=(args,))
+        local_rank = int(os.environ['LOCAL_RANK'])
+        worker(local_rank, args)
     else:
         worker(0, args)
 

@@ -1,11 +1,12 @@
-python -u main.py \
-        --nodes 1 \
-        --gpus 1 \
-        --rank 0 \
+#python -u main.py \
+python -m torch.distributed.launch --nproc_per_node=2 main.py \
+        --nnodes 2 \
+        --gpus 2 \
+        --node_rank 1 \
         --nepochs 60 \
         --epochs-done 0 \
         --batch-size 512 \
-        --bsz-small 32 \
+        --bsz-small 8 \
         --train-path '/users/PAS1939/vishal/datasets/librispeech/train_full_960.csv' \
         --logging-file 'logs/debug.log' \
         --save-path '/users/PAS1939/vishal/saved_models/debug.pth.tar' \

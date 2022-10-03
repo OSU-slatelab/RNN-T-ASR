@@ -57,7 +57,7 @@ def roll_in(x, lens):
     x = pad_fac(x, 4)
     full = torch.cat([x, x.roll(-1, dims=1), x.roll(-2, dims=1), x.roll(-3, dims=1)], dim=2)
     extract = list(range(0, x.size(1), 4))
-    return full[:, extract, :], lens
+    return full[:, extract, :], torch.tensor(lens)
 
 def convert_tok2id(text):
     lst = []

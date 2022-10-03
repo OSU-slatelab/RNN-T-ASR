@@ -9,3 +9,5 @@ beam.py
 scr.sh
 core*
 decodes
+job_submit_owens.sh
+sync/shared

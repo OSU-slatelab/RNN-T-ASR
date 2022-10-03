@@ -113,8 +113,7 @@ class Trainer(object):
                 speechB = SpecDel(speechB, logitLens, self.args.fmask) # specaug --> del+ddel
                 #speechB = self.aug(speechB) # specaugment
                 speechB, logitLens = roll_in(speechB, logitLens) # lower sequence length
-                speechB, textB, targetB, logitLens, targetLens = load2gpu(speechB, self.device), load2gpu(textB, self.device), load2gpu(targetB, self.device), load2gpu(torch.tensor(logitLens), self.device), load2gpu(torch.tensor(targetLens),self.device)
-
+                speechB, textB, targetB, logitLens, targetLens = load2gpu(speechB, self.device), load2gpu(textB, self.device), load2gpu(targetB, self.device), load2gpu(logitLens, self.device), load2gpu(targetLens,self.device)
                 pred = model(speechB, textB)
                 loss = rnnt_loss(pred, targetB.int(), logitLens.int(), targetLens.int(), 0) / self.update_after
                 if torch.isnan(loss):
